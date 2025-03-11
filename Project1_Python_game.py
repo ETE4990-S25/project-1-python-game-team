@@ -1,5 +1,11 @@
 import json
 
+#inventory dataset import
+import json
+
+with open('ItemData.json') as f:
+    items = json.load (f)
+
 def setting_up():
 #setting up the character based on player answers
     name = input("What is your name? ")
