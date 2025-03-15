@@ -1,0 +1,14 @@
+{
+    "name": "shant",
+    "character_type": "Assassin",
+    "level": 100,
+    "health": 100,
+    "strength": 10,
+    "magic": 3,
+    "defense": 1,
+    "inventory": [
+        "Beast Necklace",
+        "Air Gem",
+        "Alchemist's Scroll"
+    ]
+}

@@ -2,9 +2,12 @@ import json
 
 #inventory dataset import
 import json
-
-with open('ItemData.json') as f:
-    items = json.load (f)
+try:
+    with open('ItemData.json') as f:
+        items = json.load (f)
+except FileNotFoundError:
+    print("Json file not found")
+    items = {}
 
 def setting_up():
 #setting up the character based on player answers
@@ -59,19 +62,19 @@ class Player:
         print(f"Defense: {self.defense}")
         print(f"Inventory: {self.inventory}")
 
-def add_to_inventory(self, item_name):
-    found = False
-    for category, item_list in items.items():
-        for item_data in item_list:
-            if item_data.get("name") == item_name:
-                self.inventory.append(item_name)
-                print(f"{item_name} has been added to your inventory.")
-                found = True
+    def add_to_inventory(self, item_name):
+        found = False
+        for category, item_list in items.items():
+            for item_data in item_list:
+                if item_data.get("name") == item_name:
+                    self.inventory.append(item_name)
+                    print(f"{item_name} has been added to your inventory.")
+                    found = True
+                    break
+            if found:
                 break
-        if found:
-            break
-    if not found:
-        print(f"{item_name} not found.")
+        if not found:
+            print(f"{item_name} not found.")
 
     #i dont know if we need this but this is from copilot
     def save(self, filename="player_data.json"):
@@ -107,6 +110,10 @@ def add_to_inventory(self, item_name):
         except FileNotFoundError:
             print("No save file found.")
             return None
+    def view_inventory(self):
+        print("Inventory: ")
+        for item in self.inventory:
+            print(f"- {item}")
 
 #creates player instance and displays stats
 player = Player(player_name, player_class)
@@ -118,7 +125,7 @@ while True:
     command_parts = command.split()
 
     if command_parts[0].lower() == 'add':
-        if len(command_parts) >1:
+        if len(command_parts) > 1:
             item_to_add = " ".join(command_parts[1:])
             player.add_to_inventory(item_to_add)
             player.display_stats()
