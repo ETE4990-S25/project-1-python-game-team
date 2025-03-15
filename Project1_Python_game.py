@@ -23,7 +23,7 @@ player_name, player_class = setting_up()
 print(f"Welcome, {player_name}! You are a {player_class.capitalize()}.")
 
 
-#Defualt values for the player
+#Default values for the player
 class Player:
     def __init__(self, name, character_type):
         self.name = name
@@ -31,6 +31,7 @@ class Player:
         self.level = 100
         self.inventory = []
         self.set_attributes()
+        self.health = 100
         pass
 
     def set_attributes(self):
@@ -57,6 +58,20 @@ class Player:
         print(f"Magic: {self.magic}")
         print(f"Defense: {self.defense}")
         print(f"Inventory: {self.inventory}")
+
+def add_to_inventory(self, item_name):
+    found = False
+    for category, item_list in items.items():
+        for item_data in item_list:
+            if item_data.get("name") == item_name:
+                self.inventory.append(item_name)
+                print(f"{item_name} has been added to your inventory.")
+                found = True
+                break
+        if found:
+            break
+    if not found:
+        print(f"{item_name} not found.")
 
     #i dont know if we need this but this is from copilot
     def save(self, filename="player_data.json"):
@@ -92,3 +107,29 @@ class Player:
         except FileNotFoundError:
             print("No save file found.")
             return None
+
+#creates player instance and displays stats
+player = Player(player_name, player_class)
+player.display_stats()
+
+#inventory
+while True:
+    command = input("Enter a command (add, view, save, exit): ")
+    command_parts = command.split()
+
+    if command_parts[0].lower() == 'add':
+        if len(command_parts) >1:
+            item_to_add = " ".join(command_parts[1:])
+            player.add_to_inventory(item_to_add)
+            player.display_stats()
+        else:
+            print("Please provide an item name.")
+    elif command_parts[0].lower() == 'view':
+        player.view_inventory()
+    elif command_parts[0].lower() == 'save':
+        player.save()
+        break
+    elif command_parts[0].lower() == 'exit':
+        break
+    else:
+        print("Incorrect command.")
