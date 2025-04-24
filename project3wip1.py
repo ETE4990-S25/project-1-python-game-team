@@ -42,11 +42,11 @@ class Player:  #comment: capitalized class name to follow standard naming conven
     def set_attributes(self):
         # Types of different characters
         if self.character_type == "wizard":
-            self.strength = 1
+            self.strength = 5
             self.magic = 10
             self.defense = 3
         elif self.character_type == "knight":
-            self.strength = 5
+            self.strength = 10
             self.magic = 2
             self.defense = 10
         elif self.character_type == "assassin":
@@ -148,7 +148,7 @@ def battle(player, enemy):
     battle_active = True
 
     while battle_active:
-        print("\nYour Turn:")
+        print("\nYour Turn (Type the number with the corresponding actions):")
         print("1. Attack")
         print("2. Heal")
         print("3. Run")
@@ -231,17 +231,27 @@ def receive_loot(player):
     if not loot_received:
         print("No loot received.")  # Fallback message if loot is empty or incorrect
 
-# Inventory and game loop
+# Inventory and game loop (lambda functions provided by copilot)
+# Initialize player instance
+player_instance = Player("Hero", "knight")  # You can customize name and class
+
+# Inventory and game loop (lambda functions provided by copilot, now corrected)
+def save_game():
+    player_instance.save()
+    "save": lambda _: save_game(),
+
 commands = {
-    "add": lambda args: Player.add_to_inventory(" ".join(args)) if args else print("Please provide an item name."),
-    "view": lambda _: Player.view_inventory(),
-    "save": lambda _: (Player.save(), print("Game saved. You can now enter battle.")),
-    "battle": lambda _: battle(Player, choose_enemy()),
+    "view": lambda _: player_instance.view_inventory(),
+    "save": lambda _: (player_instance.save(), print("Game saved. You can now enter battle.")),
+    "battle": lambda _: battle(player_instance, choose_enemy()),
     "exit": lambda _: exit()
 }
 
+# Main game loop
 while True:
     command_input = input("Enter a command (add, view, save, battle, exit): ").split()
+    if not command_input:
+        continue
     command = command_input[0].lower()
     args = command_input[1:]
     commands.get(command, lambda _: print("Incorrect command."))(args)
