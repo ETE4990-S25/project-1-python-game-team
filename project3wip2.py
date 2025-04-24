@@ -206,7 +206,7 @@ def battle(player, enemy):
                 print("Game over.")
                 exit()
 
-def gain_exp(self, amount):
+def gain_exp(self, amount): #Ive had comments about a dynamic xp system but it just made the code more complex so i decided to keep it simple for now
     self.level += amount // 10  # Increase level every 10 XP
     self.strength += amount // 200  # Increase strength gradually
     self.magic += amount // 255  # Increase magic
@@ -231,27 +231,17 @@ def receive_loot(player):
     if not loot_received:
         print("No loot received.")  # Fallback message if loot is empty or incorrect
 
-# Inventory and game loop (lambda functions provided by copilot)
-# Initialize player instance
-player_instance = Player("Hero", "knight")  # You can customize name and class
-
-# Inventory and game loop (lambda functions provided by copilot, now corrected)
-def save_game():
-    player_instance.save()
-    "save": lambda _: save_game(),
-
+# Inventory and game loop (lambda functions provided by copilot) #revert back to what i had before
 commands = {
-    "view": lambda _: player_instance.view_inventory(),
-    "save": lambda _: (player_instance.save(), print("Game saved. You can now enter battle.")),
-    "battle": lambda _: battle(player_instance, choose_enemy()),
+    "add": lambda args: Player.add_to_inventory(" ".join(args)) if args else print("Please provide an item name."),
+    "view": lambda _: Player.view_inventory(),
+    "save": lambda _: (Player.save(), print("Game saved. You can now enter battle.")),
+    "battle": lambda _: battle(Player, choose_enemy()),
     "exit": lambda _: exit()
 }
 
-# Main game loop
 while True:
     command_input = input("Enter a command (add, view, save, battle, exit): ").split()
-    if not command_input:
-        continue
     command = command_input[0].lower()
     args = command_input[1:]
     commands.get(command, lambda _: print("Incorrect command."))(args)
